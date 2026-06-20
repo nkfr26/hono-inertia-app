@@ -1,5 +1,5 @@
 import { Head, Link } from '@inertiajs/react'
-import type { PageProps } from '../../pages.gen'
+import type { PageProps } from '@/pages.gen'
 
 export default function UserIndex({ users }: PageProps<'Users/Index'>) {
   return (

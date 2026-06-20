@@ -1,5 +1,5 @@
 import { Head, Link } from '@inertiajs/react'
-import type { PageProps } from '../../pages.gen'
+import type { PageProps } from '@/pages.gen'
 
 export default function UserShow({ user }: PageProps<'Users/Show'>) {
   return (
