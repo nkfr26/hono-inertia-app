@@ -1,5 +1,5 @@
 import { Form, Head, Link } from '@inertiajs/react'
-import { UserInput } from '@/server'
+import type { UserInput } from '@/server'
 
 export default function UserNew() {
   return (
@@ -24,7 +24,7 @@ export default function UserNew() {
             </div>
             <div>
               <label htmlFor="bio">Bio</label>
-              <textarea id="bio" name="bio"></textarea>
+              <textarea id="bio" name="bio" />
               {errors.bio && <p>{errors.bio}</p>}
             </div>
             <button type="submit" disabled={processing}>
