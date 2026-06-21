@@ -1,6 +1,6 @@
 import { Hono } from 'hono'
 import { inertia } from '@hono/inertia'
-import { zValidator } from '@hono/zod-validator'
+import { sValidator } from '@hono/standard-validator'
 import { z } from 'zod'
 import { rootView } from '@/root-view'
 import { createUser, findUser, listUsers } from '@/data'
@@ -18,13 +18,15 @@ const app = new Hono()
 
 app.use(inertia({ rootView }))
 
-function toInertiaErrors(error: StandardSchemaV1.FailureResult) {
-  return error.issues.reduce<Record<string, string>>((inertiaErrors, issue) => {
-    const key = issue.path?.join(".")
-    if (key && !inertiaErrors[key]) {
-      inertiaErrors[key] = issue.message
+function toInertiaErrors(issues: readonly StandardSchemaV1.Issue[]) {
+  return issues.reduce<Record<string, string>>((errors, issue) => {
+    const key = issue.path
+      ?.map((p) => typeof p === 'object' ? String(p.key) : String(p))
+      .join('.')
+    if (key && !errors[key]) {
+      errors[key] = issue.message
     }
-    return inertiaErrors
+    return errors
   }, {})
 }
 
@@ -40,7 +42,7 @@ const routes = app
   })
   .post(
     '/users',
-    zValidator('json', userInput, (result, c) => {
+    sValidator('json', userInput, (result, c) => {
       if (!result.success) {
         return c.render('Users/New', { errors: toInertiaErrors(result.error) })
       }
