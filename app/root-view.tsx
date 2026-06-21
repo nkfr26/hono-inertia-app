@@ -16,8 +16,8 @@ export const rootView: RootView = async (page) => {
     page: page as Page,
     render: renderToString,
     resolve: async (name) => {
-      const pages = import.meta.glob<{ default: ResolvedComponent }>('../app/pages/**/*.tsx')
-      const page = await pages[`../app/pages/${name}.tsx`]()
+      const pages = import.meta.glob<{ default: ResolvedComponent }>('./pages/**/*.tsx')
+      const page = await pages[`./pages/${name}.tsx`]()
       return page.default
     },
     setup: ({ App, props }) => <App {...props} />,

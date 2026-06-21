@@ -2,8 +2,8 @@ import { Hono } from 'hono'
 import { inertia } from '@hono/inertia'
 import { zValidator } from '@hono/zod-validator'
 import { z } from 'zod'
-import { rootView } from '../src/root-view'
-import { createUser, findUser, listUsers } from './data'
+import { rootView } from '@/root-view'
+import { createUser, findUser, listUsers } from '@/data'
 
 const userInput = z.object({
   name: z.string().min(1, 'Name is required'),
