@@ -2,9 +2,9 @@ import { Hono } from 'hono'
 import { inertia } from '@hono/inertia'
 import { sValidator } from '@hono/standard-validator'
 import * as z from 'zod'
-import type { StandardSchemaV1 } from '@standard-schema/spec'
 import { rootView } from '@/root-view'
 import { createUser, findUser, listUsers } from '@/data'
+import { toInertiaErrors } from '@/lib/utils'
 
 const userInput = z.object({
   name: z.string().min(1, 'Name is required'),
@@ -16,32 +16,6 @@ export type UserInput = z.infer<typeof userInput>
 
 const app = new Hono()
 app.use(inertia({ rootView }))
-
-function toInertiaErrors(issues: readonly StandardSchemaV1.Issue[], withAllErrors?: false): Record<string, string>
-function toInertiaErrors(issues: readonly StandardSchemaV1.Issue[], withAllErrors: true): Record<string, string[]>
-function toInertiaErrors(issues: readonly StandardSchemaV1.Issue[], withAllErrors = false): Record<string, string | string[]> {
-  return issues.reduce<Record<string, string | string[]>>((errors, issue) => {
-    const key = issue.path
-      ?.map((p) => (typeof p === 'object' ? String(p.key) : String(p)))
-      .join('.')
-
-    if (!key) {
-      return errors
-    }
-    if (!withAllErrors) {
-      if (typeof errors[key] !== 'string') {
-        errors[key] = issue.message
-      }
-    } else {
-      if (!Array.isArray(errors[key])) {
-        errors[key] = [issue.message]
-      } else {
-        errors[key].push(issue.message)
-      }
-    }
-    return errors
-  }, {})
-}
 
 const routes = app
   .get('/', (c) => c.render('Home', { message: 'Hono x Inertia' }))
