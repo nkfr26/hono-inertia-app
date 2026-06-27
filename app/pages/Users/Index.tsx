@@ -1,16 +1,9 @@
 import { Head, Link, router } from '@inertiajs/react'
-import type { VisitHelperOptions } from '@inertiajs/core'
 import { useDebouncedValue } from '@tanstack/react-pacer'
 import { omitBy } from 'es-toolkit'
 import { useState } from 'react'
-import { useUpdateDeepCompareEffect } from '@/lib/utils'
+import { useUpdateDeepCompareEffect, visitHelperOptions } from '@/lib/utils'
 import type { PageProps } from '@/pages.gen'
-
-const visitHelperOptions: VisitHelperOptions = {
-  replace: true,
-  preserveScroll: true,
-  preserveState: true,
-}
 
 export default function UserIndex({ users, filters }: PageProps<'Users/Index'>) {
   const [inputs, setInputs] = useState(filters)
