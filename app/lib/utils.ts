@@ -1,5 +1,6 @@
 import { VisitHelperOptions } from "@inertiajs/core"
 import type { StandardSchemaV1 } from "@standard-schema/spec"
+import { omitBy } from "es-toolkit"
 import { useDeepCompareEffect, useFirstMountState } from "react-use"
 
 function getKey(issue: StandardSchemaV1.Issue) {
@@ -32,6 +33,10 @@ export function toInertiaErrors(
       Object.entries(toInertiaAllErrors(issues).errors).map(([k, v]) => [k, v[0]])
     )
   }
+}
+
+export const omitFalsy = <T extends Record<string, any>>(obj: T) => {
+  return omitBy(obj, (value) => !value)
 }
 
 export const useUpdateDeepCompareEffect: typeof useDeepCompareEffect = (
