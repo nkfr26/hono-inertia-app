@@ -1,5 +1,5 @@
 import { Form, Head, Link } from '@inertiajs/react'
-import type { UserInput } from '@/server'
+import type { UserInput } from '@/data'
 
 export default function UserNew() {
   return (

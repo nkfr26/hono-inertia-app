@@ -34,7 +34,7 @@ export const listUsers = (filters: UserFilters): User[] => {
 export const findUser = (id: number): User | undefined => users.find((u) => u.id === id)
 
 export const userInput = user.omit({ id: true })
-type UserInput = z.infer<typeof userInput>
+export type UserInput = z.infer<typeof userInput>
 
 export const createUser = (input: UserInput): User => {
   const user: User = { id: nextId++, ...input }
