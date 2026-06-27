@@ -1,5 +1,5 @@
 import { renderToString } from 'react-dom/server'
-import { Link, Script, ViteClient } from 'vite-ssr-components/react'
+import { Link, ReactRefresh, Script, ViteClient } from 'vite-ssr-components/react'
 import type { RootView } from '@hono/inertia'
 import { createInertiaApp, type ResolvedComponent } from '@inertiajs/react'
 import type { Page } from '@inertiajs/core'
@@ -8,6 +8,7 @@ export const rootView: RootView = async (page) => {
   const head = renderToString(
     <>
       <ViteClient />
+      <ReactRefresh />
       <Script src='/src/client.tsx' />
       <Link href='/src/style.css' rel='stylesheet' />
     </>

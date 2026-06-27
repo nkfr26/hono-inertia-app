@@ -1,3 +1,5 @@
+import * as z from 'zod'
+
 export type User = {
   id: number
   name: string
@@ -13,7 +15,20 @@ const users: User[] = [
 
 let nextId = users.length + 1
 
-export const listUsers = (): User[] => users
+export const usersFilters = z.object({
+  q: z.string().optional().default(''),
+})
+type UserFilters = z.infer<typeof usersFilters>
+
+export const listUsers = (filters: UserFilters): User[] => {
+  const q = filters.q.trim().toLowerCase()
+  if (q === '') {
+    return users
+  }
+  return users.filter(
+    (u) => u.name.toLowerCase().includes(q) || u.email.toLowerCase().includes(q)
+  )
+}
 
 export const findUser = (id: number): User | undefined => users.find((u) => u.id === id)
 
