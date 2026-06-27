@@ -9,7 +9,7 @@ export default function UserIndex({ users, filters }: PageProps<'Users/Index'>) 
   const [inputs, setInputs] = useState(filters)
   const [debouncedQ] = useDebouncedValue(inputs.q, { wait: 500 })
 
-  const searchParams = omitBy({ ...inputs, q: debouncedQ }, (v) => !v)
+  const searchParams = omitBy<typeof filters>({ ...inputs, q: debouncedQ }, (v) => !v)
   useUpdateDeepCompareEffect(() => {
     router.get('/users', searchParams, {
       ...visitHelperOptions, only: ['users', 'filters']
