@@ -1,11 +1,12 @@
 import * as z from 'zod'
 
-export type User = {
-  id: number
-  name: string
-  email: string
-  bio: string
-}
+const user = z.object({
+  id: z.number(),
+  name: z.string().min(1, 'Name is required'),
+  email: z.email('Invalid email'),
+  bio: z.string().max(200, 'Bio must be 200 characters or less').optional().default('')
+})
+export type User = z.infer<typeof user>
 
 const users: User[] = [
   { id: 1, name: 'Yusuke Wada', email: 'yusuke@example.com', bio: 'Hono author.' },
@@ -32,7 +33,10 @@ export const listUsers = (filters: UserFilters): User[] => {
 
 export const findUser = (id: number): User | undefined => users.find((u) => u.id === id)
 
-export const createUser = (input: Omit<User, 'id'>): User => {
+export const userInput = user.omit({ id: true })
+type UserInput = z.infer<typeof userInput>
+
+export const createUser = (input: UserInput): User => {
   const user: User = { id: nextId++, ...input }
   users.push(user)
   return user

@@ -1,17 +1,9 @@
 import { Hono } from 'hono'
 import { inertia } from '@hono/inertia'
 import { sValidator } from '@hono/standard-validator'
-import * as z from 'zod'
-import { rootView } from '@/root-view'
-import { createUser, findUser, listUsers, usersFilters } from '@/data'
+import { createUser, findUser, listUsers, userInput, usersFilters } from '@/data'
 import { toInertiaErrors } from '@/lib/utils'
-
-const userInput = z.object({
-  name: z.string().min(1, 'Name is required'),
-  email: z.email('Invalid email'),
-  bio: z.string().max(200, 'Bio must be 200 characters or less').optional().default('')
-})
-export type UserInput = z.infer<typeof userInput>
+import { rootView } from '@/root-view'
 
 const app = new Hono()
 app.use(inertia({ rootView }))
