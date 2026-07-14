@@ -35,8 +35,8 @@ export function toInertiaErrors(
   }
 }
 
-export const omitFalsy = <T extends Record<string, any>>(obj: T) => {
-  return omitBy(obj, (value) => !value)
+export function omitDefaults<T extends Record<string, unknown>>(obj: T, defaults: Partial<T>) {
+  return omitBy(obj, (v, k) => v === defaults[k])
 }
 
 export const useUpdateDeepCompareEffect: typeof useDeepCompareEffect = (

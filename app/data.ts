@@ -17,7 +17,7 @@ const users: User[] = [
 let nextId = users.length + 1
 
 export const usersFilters = z.object({
-  q: z.string().trim().toLowerCase().optional().default(''),
+  q: z.string().toLowerCase().optional().default(''),
 })
 type UserFilters = z.infer<typeof usersFilters>
 

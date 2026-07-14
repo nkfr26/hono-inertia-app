@@ -1,14 +1,14 @@
 import { Head, Link, router } from '@inertiajs/react'
 import { useDebouncedValue } from '@tanstack/react-pacer'
 import { useState } from 'react'
-import { omitFalsy, useUpdateDeepCompareEffect, visitHelperOptions } from '@/lib/utils'
+import { omitDefaults, useUpdateDeepCompareEffect, visitHelperOptions } from '@/lib/utils'
 import type { PageProps } from '@/pages.gen'
 
 export default function UserIndex({ users, filters }: PageProps<'Users/Index'>) {
   const [inputs, setInputs] = useState(filters)
   const [q] = useDebouncedValue(inputs.q, { wait: 500 })
 
-  const searchParams = omitFalsy<typeof filters>({ ...inputs, q })
+  const searchParams = omitDefaults<typeof filters>({ ...inputs, q }, { q: '' })
   useUpdateDeepCompareEffect(() => {
     router.get('/users', searchParams, {
       ...visitHelperOptions, only: ['users', 'filters']
