@@ -54,13 +54,13 @@ export function omitDefaults<T extends Record<string, unknown>>(obj: T, defaults
 }
 
 export function useFirstMountState() {
-	const isFirstMount = useRef(true)
+  const isFirstMount = useRef(true)
 
-	useEffect(() => {
-		isFirstMount.current = false
-	}, [])
+  useEffect(() => {
+    isFirstMount.current = false
+  }, [])
 
-	return isFirstMount.current
+  return isFirstMount.current
 }
 
 export const useUpdateEffect: typeof useEffect = (effect, deps) => {
