@@ -1,19 +1,18 @@
-import { Head, Link, router } from '@inertiajs/react'
-import { useDebouncedValue } from '@tanstack/react-pacer'
-import { useState } from 'react'
-import { omitDefaults, useUpdateDeepCompareEffect, visitHelperOptions } from '@/lib/utils'
+import { Head, Link, router } from '@nkfr26/inertia-hono-jsx'
+import { useState } from 'hono/jsx'
+import { omitDefaults, useDebouncedValue, useUpdateEffect, visitHelperOptions } from '@/lib/utils'
 import type { PageProps } from '@/pages.gen'
 
 export default function UserIndex({ users, filters }: PageProps<'Users/Index'>) {
-  const [inputs, setInputs] = useState(filters)
-  const [q] = useDebouncedValue(inputs.q, { wait: 500 })
+  const [q, setQ] = useState(filters.q)
+  const debouncedQ = useDebouncedValue(q, { intervalMs: 500 })
 
-  const searchParams = omitDefaults<typeof filters>({ ...inputs, q }, { q: '' })
-  useUpdateDeepCompareEffect(() => {
-    router.get('/users', searchParams, {
+  const inputs = omitDefaults<typeof filters>({ q: debouncedQ }, { q: '' })
+  useUpdateEffect(() => {
+    router.get('/users', inputs, {
       ...visitHelperOptions, only: ['users', 'filters']
     })
-  }, [searchParams])
+  }, [inputs.q])
   return (
     <>
       <Head title="Users" />
@@ -21,8 +20,8 @@ export default function UserIndex({ users, filters }: PageProps<'Users/Index'>) 
         <Link href="/users/new">+ New user</Link>
       </p>
       <input
-        value={inputs.q}
-        onChange={(e) => setInputs((prev) => ({ ...prev, q: e.target.value }))}
+        value={q}
+        onChange={(e) => setQ((e.target as HTMLInputElement).value)}
       />
       <ul>
         {users.map((user) => (

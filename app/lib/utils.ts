@@ -1,7 +1,7 @@
 import { VisitHelperOptions } from "@inertiajs/core"
 import type { StandardSchemaV1 } from "@standard-schema/spec"
 import { omitBy } from "es-toolkit"
-import { useDeepCompareEffect, useFirstMountState } from "react-use"
+import { useEffect, useRef, useState } from "hono/jsx"
 
 function getKey(issue: StandardSchemaV1.Issue) {
   if (!issue.path?.length) {
@@ -35,15 +35,38 @@ export function toInertiaErrors(
   }
 }
 
+export function useDebouncedValue<T>(latestValue: T, options: { intervalMs: number }): T {
+  const [debouncedValue, setDebouncedValue] = useState(latestValue)
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setDebouncedValue(latestValue)
+    }, options.intervalMs)
+
+    return () => clearTimeout(timeoutId)
+  }, [latestValue, options.intervalMs])
+
+  return debouncedValue
+}
+
 export function omitDefaults<T extends Record<string, unknown>>(obj: T, defaults: Partial<T>) {
   return omitBy(obj, (v, k) => v === defaults[k])
 }
 
-export const useUpdateDeepCompareEffect: typeof useDeepCompareEffect = (
-  effect, deps
-) => {
+export function useFirstMountState() {
+	const isFirstMount = useRef(true)
+
+	useEffect(() => {
+		isFirstMount.current = false
+	}, [])
+
+	return isFirstMount.current
+}
+
+export const useUpdateEffect: typeof useEffect = (effect, deps) => {
   const isFirstMount = useFirstMountState()
-  useDeepCompareEffect(() => {
+
+  useEffect(() => {
     if (!isFirstMount) {
       return effect()
     }

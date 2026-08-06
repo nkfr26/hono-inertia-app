@@ -12,19 +12,14 @@
     "@hono/inertia": "^0.7.0",
     "@hono/standard-validator": "^0.2.2",
     "@hono/zod-validator": "^0.8.0",
-    "@inertiajs/react": "^3.4.0",
-    "@tanstack/react-pacer": "^0.22.1",
+    "@nkfr26/inertia-hono-jsx": "^3.6.1",
     "es-toolkit": "^1.49.0",
-    "hono": "^4.12.26",
-    "react": "^19.2.7",
-    "react-dom": "^19.2.7",
-    "react-use": "^17.6.1"
+    "hono": "^4.13.0"
   },
   "devDependencies": {
     "@cloudflare/vite-plugin": "^1.2.3",
     "@standard-schema/spec": "^1.1.0",
     "@types/node": "^26.0.0",
-    "@types/react-dom": "^19.2.3",
     "vite": "^6.3.5",
     "vite-ssr-components": "^0.6.1",
     "wrangler": "^4.17.0"

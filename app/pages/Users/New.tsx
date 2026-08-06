@@ -1,4 +1,4 @@
-import { Form, Head, Link } from '@inertiajs/react'
+import { Form, Head, Link } from '@nkfr26/inertia-hono-jsx'
 import type { UserInput } from '@/data'
 
 export default function UserNew() {

@@ -1,5 +1,5 @@
-import { createInertiaApp, type ResolvedComponent } from '@inertiajs/react'
-import { hydrateRoot } from 'react-dom/client'
+import { createInertiaApp, type ResolvedComponent } from '@nkfr26/inertia-hono-jsx'
+import { hydrateRoot } from 'hono/jsx/dom/client'
 
 createInertiaApp({
   resolve: async (name) => {
