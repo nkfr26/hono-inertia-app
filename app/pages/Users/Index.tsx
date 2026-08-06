@@ -1,7 +1,7 @@
+import type { PageProps } from '@hono/inertia'
 import { Head, Link, router } from '@nkfr26/inertia-hono-jsx'
 import { useState } from 'hono/jsx'
 import { omitDefaults, useDebouncedValue, useUpdateEffect, visitHelperOptions } from '@/lib/utils'
-import type { PageProps } from '@/pages.gen'
 
 export default function UserIndex({ users, filters }: PageProps<'Users/Index'>) {
   const [q, setQ] = useState(filters.q)

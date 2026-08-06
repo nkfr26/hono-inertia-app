@@ -1,5 +1,5 @@
+import type { PageProps } from '@hono/inertia'
 import { Head, Link } from '@nkfr26/inertia-hono-jsx'
-import type { PageProps } from '@/pages.gen'
 
 export default function UserShow({ user }: PageProps<'Users/Show'>) {
   return (
